@@ -1,0 +1,8 @@
+fastmcp
+playwright
+python-dotenv
+PyYAML
+openai
+streamlit
+pytest
+pytest-mock 

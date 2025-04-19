@@ -1,0 +1,16 @@
+daily_caps:
+  invites: 30
+  likes: 40
+  comments: 12
+
+schedule_blocks:
+  - start: "08:30"
+    end: "12:30"
+  - start: "14:00"
+    end: "18:30"
+
+delay_seconds:
+  min: 120
+  max: 240
+
+micro_break_every: "10-15 min" 

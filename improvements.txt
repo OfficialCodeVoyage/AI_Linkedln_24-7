@@ -1,0 +1,31 @@
+# Future Improvements for LinkedIn MCP Bot
+
+## Robustness & Error Handling
+
+1.  **Captcha Handling:** Detect CAPTCHAs (e.g., by looking for specific selectors/text). Implement strategies: pause execution & notify user, integrate with a service like 2Captcha (requires API key and funds).
+2.  **Advanced Error Handling & Retries:** Implement more specific error catching for Playwright/MCP/API calls. Use libraries like `tenacity` for automatic retries with backoff for transient network issues.
+3.  **Headless Login Enhancements:** Explore more robust headless login methods, potentially handling Multi-Factor Authentication (MFA/2FA) if LinkedIn requires it (this is often complex and may require user interaction or specific library support).
+4.  **Stale Element/Selector Handling:** Add checks or waits in Playwright tools (`mcp_server.py`) to handle cases where page elements change or load slowly, preventing crashes.
+5.  **State Persistence:** Save/load the orchestrator's state (e.g., current queue, remaining caps for the day) more robustly, perhaps in the database, so it can resume correctly after a restart.
+
+## Intelligence & Targeting
+
+6.  **Implement Prospecting:** Use `prospecting.yml` to define keywords, company names, or job titles. Modify `orchestrator.py` or add new MCP tools to search LinkedIn based on these criteria and find relevant profiles to invite or posts to interact with.
+7.  **Context-Aware Commenting:** Enhance `commenter.py` to provide more context to the LLM (e.g., author's name/headline, previous comments) for more relevant and personalized generated comments.
+8.  **Negative Keywords:** Allow specifying negative keywords in `prospecting.yml` or config to avoid interacting with irrelevant or sensitive posts/profiles.
+9.  **Smarter Task Selection:** Instead of purely random selection, implement weighted randomness or a priority queue. E.g., prioritize commenting on posts from specific connections or prioritize invites if the pipeline is falling behind target.
+10. **Alternative LLMs:** Add support for other models like Claude (as mentioned in spec) via Anthropic's SDK, potentially with logic to choose the best model based on cost/quality needs or fallback on API errors.
+11. **Interaction Memory:** Store interaction history (e.g., who you've invited, which posts you've liked/commented on) in the database to avoid redundant actions.
+
+## User Experience & Monitoring
+
+12. **Enhanced Dashboard:** Move beyond basic Streamlit. Integrate with Grafana (requires setting up a time-series DB like Prometheus/InfluxDB and a Grafana Agent) for more powerful visualizations and alerting.
+13. **Notifications:** Add email, Slack, or other notification methods (e.g., using `apprise`) for critical events like CAPTCHAs detected, repeated errors, or daily summary reports.
+14. **Configuration UI:** Create a simple web UI (perhaps using Streamlit or Flask/FastAPI) to manage `config/daily.yml` settings instead of editing the file directly.
+15. **Manual Action Queue:** Allow adding specific profiles (invite) or posts (like/comment) to a queue manually via a UI or CLI for targeted actions.
+
+## Scalability & Safety
+
+16. **Multi-Account Support:** Refactor configuration (`.env`, `config/daily.yml`) and state management (DB schema, `storage.json`) to handle multiple LinkedIn accounts securely.
+17. **Proxy Support:** Integrate rotating proxies (residential or datacenter) for Playwright sessions to reduce the risk profile, especially for multi-account operation.
+18. **Advanced Anti-Detection:** Research and implement more sophisticated anti-detection techniques in Playwright (e.g., realistic mouse movements, typing speed variations, canvas fingerprint spoofing, timezone/locale matching), though this adds significant complexity. 
